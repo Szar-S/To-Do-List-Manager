@@ -2,10 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace To_Do_List_Manager
@@ -16,11 +12,6 @@ namespace To_Do_List_Manager
     }
     internal class Program
     {
-        static string AskAndReceive(string question)
-        {
-            Console.Write(question);
-            return Console.ReadLine();
-        }
         static void Main(string[] args)
         {
             bool isdone = false;
@@ -73,15 +64,17 @@ namespace To_Do_List_Manager
             try
             {
                 string name = AskAndReceive("Name: ");
-                while (name == "")
+                while (name.Replace(" ", "") == "")
                 {
                     name = AskAndReceive("Name can't be empty: ");
                 }
+
                 string description = AskAndReceive("Description: ");
-                while (description == "")
+                while (description.Replace(" ", "") == "")
                 {
                     description = AskAndReceive("Description can't be empty: ");
                 }
+
                 string iss = AskAndReceive("Is it complete(T for True/F for False): ").Replace(" ", "").ToUpper();
                 bool iscomplete = false;
                 while (iss != "T" && iss != "F")
@@ -124,6 +117,12 @@ namespace To_Do_List_Manager
                     Console.WriteLine(File.ReadAllText(FileLocations.saveTask));
                 Console.WriteLine("**********************************************************************");
             }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine("**********************************************************************");
+                Console.WriteLine("There is no task.");
+                Console.WriteLine("**********************************************************************");
+            }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
@@ -137,6 +136,14 @@ namespace To_Do_List_Manager
                 arrLine.RemoveAt(line_to_edit - 1);
                 File.WriteAllLines(fileName, arrLine);
                 Console.WriteLine("Task deleted.");
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                Console.WriteLine("There is no task with that number.");
+            }
+            catch (IndexOutOfRangeException)
+            {
+                Console.WriteLine("There is no task with that number.");
             }
             catch (Exception ex)
             {
@@ -156,10 +163,23 @@ namespace To_Do_List_Manager
                 Console.WriteLine("Status succesfully changed.");
 
             }
+            catch (ArgumentOutOfRangeException)
+            {
+                Console.WriteLine("There is no task with that number.");
+            }
+            catch (IndexOutOfRangeException)
+            {
+                Console.WriteLine("There is no task with that number.");
+            }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
+        }
+        static string AskAndReceive(string question)
+        {
+            Console.Write(question);
+            return Console.ReadLine();
         }
     }
 }

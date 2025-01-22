@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace To_Do_List_Manager
 {
-    sealed public class Task
+    sealed public class @Task
     {
         public string Name;
         public string Description;
         public bool iscomplete;
-        public Task(string Name, string Description, bool iscomplete)
+        public @Task(string Name, string Description, bool iscomplete)
         {
             this.Name = Name;
             this.Description = Description;
